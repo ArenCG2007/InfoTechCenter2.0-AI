@@ -1,46 +1,61 @@
+# Print a separator for better visual separation
+print("**************************************************")
+print("Gasoline Branch\n\n")
+
+# Import necessary libraries
 import random
 from time import sleep
 
-# Constants
-MIN_MILES_LOW = 1
-MAX_MILES_LOW = 25
-MIN_MILES_QUARTER = 25.1
-MAX_MILES_QUARTER = 50
 
+# Function to randomly select a gas level
 def gasLevelGauge():
-    """Simulates a gas level gauge."""
     gasLevelList = ["Empty", "Low", "Quarter Tank", "Half Tank", "Three Quarter Tank", "Full Tank"]
-    return random.choice(gasLevelList)
+    currentGasLevel = random.choice(gasLevelList)
+    return currentGasLevel
 
-def locateGasStation():
-    """Simulates locating a nearby gas station."""
-    gasStations = ["Shell", "Speedway", "Marathon", "Circle K", "Mobil", "Costco", "Meijer", "7-Eleven"]
-    return random.choice(gasStations)
 
+# Function to randomly select a gas station
+def listOfGasStations():
+    gasStations = ["Shell", "Speedway", "Marathon", "Circle K", "Mobil", "Costco", "Meijer", "7Eleven"]
+    gasStationsNearby = random.choice(gasStations)
+    return gasStationsNearby
+
+
+# Function to alert about gas levels and nearest gas stations
 def gasLevelAlert():
-    """Alerts the user based on the gas level."""
+    # Generate random distances to gas stations
+    milesToGasStationsLow = round(random.uniform(1, 25), 1)
+    milesToGasStationsQuarterTank = round(random.uniform(25.1, 50), 1)
+
+    # Determine the current gas level
     gasLevelIndicator = gasLevelGauge()
 
+    # Print the current gas level
+    print("Gas Level:", gasLevelIndicator)
+
+    # Check the gas level and provide appropriate alerts
     if gasLevelIndicator == "Empty":
-        print("*** WARNING - YOUR TANK IS EMPTY ***\n")
+        print("***WARNING - YOU ARE ON EMPTY***\n")
         sleep(2.5)
-        print("    *** Calling Triple AAA ***")
+        print("    ***Calling Triple AAA***")
     elif gasLevelIndicator == "Low":
-        print("Your gas tank is low. Checking for the nearest gas station...")
+        print("Your gas tank is low, consider refueling soon.")
         sleep(2.5)
-        miles_to_station = round(random.uniform(MIN_MILES_LOW, MAX_MILES_LOW), 1)
-        print("The closest gas station is", locateGasStation(), "which is", miles_to_station, "miles away.")
+        print("The closest gas station is", listOfGasStations(), "which is", milesToGasStationsLow, "miles away.")
     elif gasLevelIndicator == "Quarter Tank":
-        print("Your gas tank is at a quarter tank.")
+        print("Your gas tank is at a quarter. You might want to refuel soon.")
         sleep(2.5)
-        miles_to_station = round(random.uniform(MIN_MILES_QUARTER, MAX_MILES_QUARTER), 1)
-        print("The closest gas station is", locateGasStation(), "which is", miles_to_station, "miles away.")
+        print("The closest gas station is", listOfGasStations(), "which is", milesToGasStationsQuarterTank,
+              "miles away.")
     elif gasLevelIndicator == "Half Tank":
-        print("Your gas tank is at half tank. You have plenty to reach your destination.")
+        print("Your gas tank is at half full, you have plenty to reach your destination.")
     elif gasLevelIndicator == "Three Quarter Tank":
-        print("Your gas tank is at three quarter tank.")
+        print("Your gas tank is at three-quarters full.")
     else:
         print("Your gas tank is full.")
 
-# Execute the gas level alert system
-gasLevelAlert()
+
+# Loop to simulate multiple runs of the gas level alert
+for _ in range(3):  # Run the alert 3 times
+    gasLevelAlert()
+    print("\n" + "=" * 50 + "\n")  # Print a separator after each alert
